@@ -7,15 +7,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// DATA MODELS
+// DATA MODEL SCHEMAS
 
 // POST
 model Post {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
-  authorId  String
+  authorId  Int
+  published Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+
+  @@map("posts")
+}
+
+// USER
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  profile   Profile?
+  posts     Post[]
+
+  @@map("users")
+}
+
+// PROFILE
+model Profile {
+  id        Int      @id @default(autoincrement())
+  bio       String
+  userId    Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("profiles")
 }

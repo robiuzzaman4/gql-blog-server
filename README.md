@@ -15,9 +15,9 @@
   - title
   - content
   - authorId
+  - published
   - createdAt
   - updatedAt
-  - published
 
 - user
 
@@ -25,16 +25,16 @@
   - name
   - email
   - password
-  - createAt
-  - updateAt
   - profile
+  - createdAt
+  - updatedAt
 
 - profile
   - id
   - bio
-  - createAt
-  - updateAt
   - userId
+  - createdAt
+  - updatedAt
 
 ## Technology Stack:
 
