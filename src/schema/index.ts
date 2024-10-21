@@ -23,8 +23,18 @@ export const typeDefs = `#graphql
     user: User!
   }
     
+  
   type Query {
     user: User
     posts: [Post]
   }
+
+  type Mutation {
+    createUser(
+      name: String!
+      email: String!
+      password: String!
+    ) : User
+  } 
+
 `;
