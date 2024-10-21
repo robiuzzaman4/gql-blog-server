@@ -1,10 +1,30 @@
 export const typeDefs = `#graphql
-  type Book {
-    title: String
-    author: String
+  type Post {
+    id: ID!
+    title: String!
+    content: String!
+    author: User!
+    published: Boolean!
+    createdAt: String!
+  }
+
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    createdAt: String!
+    posts: [Post]
+  }
+
+  type Profile {
+    id: ID!
+    bio: String!
+    createdAt: String!
+    user: User!
   }
     
   type Query {
-    books: [Book]
+    user: User
+    posts: [Post]
   }
 `;
