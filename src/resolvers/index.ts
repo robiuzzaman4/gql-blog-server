@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { CreateUserPayload } from "../types";
+import { SignupPayload } from "../types";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -12,7 +12,11 @@ export const resolvers = {
     },
   },
   Mutation: {
-    createUser: async (parent: any, args: CreateUserPayload, context: any) => {
+    signup: async (
+      _parent: any,
+      args: SignupPayload,
+      _context: any
+    ) => {
       const hashedPassword = await bcrypt.hash(args?.password, 12);
       const payload = {
         name: args?.name,

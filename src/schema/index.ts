@@ -30,14 +30,14 @@ export const typeDefs = `#graphql
   }
 
   type Mutation {
-    createUser(
+    signup(
       name: String!
       email: String!
       password: String!
-    ) : createUserResponse
+    ) : signupResponse
   } 
 
-  type createUserResponse {
+  type signupResponse {
     token: String
   }
 `;
