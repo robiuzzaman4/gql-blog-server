@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { SigninPayload, SignupPayload } from "../types";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { generateToken } from "../utils";
 
 const prisma = new PrismaClient();
 
@@ -45,10 +45,8 @@ export const resolvers = {
         data: payload,
       });
 
-      // generate token
-      const token = jwt.sign({ userId: newUser?.id }, "SECRET_CODE", {
-        expiresIn: "1d",
-      });
+      // get token
+      const token = generateToken({ userId: newUser?.id });
 
       // return success response
       return {
@@ -79,10 +77,8 @@ export const resolvers = {
         existingUser?.password
       );
 
-      // generate token
-      const token = jwt.sign({ userId: existingUser?.id }, "SECRET_CODE", {
-        expiresIn: "1d",
-      });
+      // get token
+      const token = generateToken({ userId: existingUser?.id });
 
       // if password is not matched then throw error
       if (!comparePassword) {
