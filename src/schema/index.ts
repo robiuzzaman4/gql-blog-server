@@ -34,10 +34,16 @@ export const typeDefs = `#graphql
       name: String!
       email: String!
       password: String!
-    ) : signupResponse
+    ) : AuthPayload
+
+    signin(
+      email: String!
+      password: String!
+    ) : AuthPayload
   } 
 
-  type signupResponse {
+  type AuthPayload {
     token: String
+    message: String
   }
 `;
