@@ -45,6 +45,16 @@ export const resolvers = {
         data: payload,
       });
 
+      // if bio is available then create profile
+      if (args?.bio) {
+        await prisma.profile.create({
+          data: {
+            bio: args?.bio,
+            userId: newUser?.id,
+          },
+        });
+      }
+
       // get token
       const token = generateToken({ userId: newUser?.id });
 
