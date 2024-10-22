@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 
 export const resolvers = {
   Query: {
+    // === USERS QUERY ===
     users: async () => {
       return await prisma.user.findMany();
     },
@@ -14,6 +15,21 @@ export const resolvers = {
   Mutation: {
     // === SIGNUP MUTATION ===
     signup: async (_parent: any, args: SignupPayload, _context: any) => {
+      // check if user exist
+      const existingUser = await prisma.user.findFirst({
+        where: {
+          email: args?.email,
+        },
+      });
+
+      // throw error if user exist
+      if (existingUser) {
+        return {
+          token: null,
+          message: "User Already Exist!",
+        };
+      }
+
       // hash entered password
       const hashedPassword = await bcrypt.hash(args?.password, 12);
 
@@ -37,7 +53,7 @@ export const resolvers = {
       // return success response
       return {
         token: token,
-        message: "Signup successfull.",
+        message: "Signup Successfull!",
       };
     },
     // === SIGNIN MUTATION ===
@@ -53,7 +69,7 @@ export const resolvers = {
       if (!existingUser) {
         return {
           token: null,
-          message: "User not found.",
+          message: "User Not Found!",
         };
       }
 
@@ -72,14 +88,14 @@ export const resolvers = {
       if (!comparePassword) {
         return {
           token: null,
-          message: "Incorrect password.",
+          message: "Incorrect Password!",
         };
       }
 
       // return success response
       return {
         token: token,
-        message: "Signin successfull.",
+        message: "Signin Successfull!",
       };
     },
   },
