@@ -12,16 +12,14 @@ export const resolvers = {
       return await prisma.user.findMany();
     },
     // === PROFLIE QUERY ===
-    profile: async (userId: number) => {
-      const profile = await prisma.user.findFirst({
+    profile: async (_parent: any, args: any, _context: any) => {
+      const profile = await prisma.profile.findUnique({
         where: {
-          profile: {
-            userId: userId,
-          },
+          userId: Number(args?.userId),
         },
       });
 
-     return profile;
+      return profile;
     },
   },
   Mutation: {
