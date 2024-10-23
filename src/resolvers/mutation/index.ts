@@ -5,11 +5,7 @@ import { Context } from "../..";
 
 export const Mutation = {
   // === SIGNUP MUTATION ===
-  signup: async (
-    _parent: any,
-    args: SignupPayload,
-    { prisma }: Context
-  ) => {
+  signup: async (_parent: any, args: SignupPayload, { prisma }: Context) => {
     // check if user exist
     const existingUser = await prisma.user.findFirst({
       where: {
@@ -61,11 +57,7 @@ export const Mutation = {
   },
 
   // === SIGNIN MUTATION ===
-  signin: async (
-    _parent: any,
-    args: SigninPayload,
-    { prisma }: Context
-  ) => {
+  signin: async (_parent: any, args: SigninPayload, { prisma }: Context) => {
     // check if existing user exist
     const existingUser = await prisma.user.findFirst({
       where: {
@@ -106,14 +98,40 @@ export const Mutation = {
   },
 
   // === CREATE POST MUTATION ===
-  createPost: async (parent: any, args: CreatePostPayload, { prisma }: Context) => {
-    // const newPost = await prisma.post.create({
-    //   data: {
-    //     title: args?.title,
-    //     content: args?.content,
-    //   },
-    // });
-    // console.log("data", args);
-    
+  createPost: async (
+    _parent: any,
+    args: CreatePostPayload,
+    { prisma, userId }: Context
+  ) => {
+    // if userId not found then thorw error
+    if (!userId) {
+      return {
+        message: "Unauthorised Access!",
+        post: null,
+      };
+    }
+
+    // if title or content not found then throw error
+    if (!args?.title || !args?.content) {
+      return {
+        message: "Title & Content is Required!",
+        post: null,
+      };
+    }
+
+    // create new post
+    const newPost = await prisma.post.create({
+      data: {
+        title: args?.title,
+        content: args?.content,
+        authorId: userId,
+      },
+    });
+
+    // return success response
+    return {
+      message: "Post Created!",
+      post: newPost,
+    };
   },
 };
