@@ -1,9 +1,7 @@
 import bcrypt from "bcrypt";
-import { PrismaClient } from "@prisma/client";
 import { SigninPayload, SignupPayload } from "../../types";
 import { generateToken } from "../../utils";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../prisma-client";
 
 export const Mutation = {
   // === SIGNUP MUTATION ===
