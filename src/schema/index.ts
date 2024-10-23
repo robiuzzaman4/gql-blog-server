@@ -42,10 +42,20 @@ export const typeDefs = `#graphql
       email: String!
       password: String!
     ) : AuthPayload
+
+    createPost(
+      title: String!
+      content: String!
+    ) : PostPayload
   } 
 
   type AuthPayload {
     token: String
     message: String
+  }
+  
+  type PostPayload {
+    message: String
+    post: Post
   }
 `;

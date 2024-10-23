@@ -4,11 +4,13 @@ import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
+import { getUserInfoFromToken } from "./utils";
 
 const prisma = new PrismaClient();
 
-type PrismaContext = {
+export type Context = {
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>;
+  userId?: number;
 };
 
 const main = async () => {
@@ -19,9 +21,14 @@ const main = async () => {
 
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
-    context: async (): Promise<PrismaContext> => {
+    context: async ({ req }): Promise<Context> => {
+      const user = await getUserInfoFromToken(
+        req.headers.authorization as string
+      );
+
       return {
         prisma,
+        userId: user?.userId,
       };
     },
   });

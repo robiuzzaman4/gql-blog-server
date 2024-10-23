@@ -1,10 +1,15 @@
 import bcrypt from "bcrypt";
-import { SigninPayload, SignupPayload } from "../../types";
+import { CreatePostPayload, SigninPayload, SignupPayload } from "../../types";
 import { generateToken } from "../../utils";
+import { Context } from "../..";
 
 export const Mutation = {
   // === SIGNUP MUTATION ===
-  signup: async (_parent: any, args: SignupPayload, { prisma }: any) => {
+  signup: async (
+    _parent: any,
+    args: SignupPayload,
+    { prisma }: Context
+  ) => {
     // check if user exist
     const existingUser = await prisma.user.findFirst({
       where: {
@@ -56,7 +61,11 @@ export const Mutation = {
   },
 
   // === SIGNIN MUTATION ===
-  signin: async (_parent: any, args: SigninPayload, { prisma }: any) => {
+  signin: async (
+    _parent: any,
+    args: SigninPayload,
+    { prisma }: Context
+  ) => {
     // check if existing user exist
     const existingUser = await prisma.user.findFirst({
       where: {
@@ -94,5 +103,17 @@ export const Mutation = {
       token: token,
       message: "Signin Successfull!",
     };
+  },
+
+  // === CREATE POST MUTATION ===
+  createPost: async (parent: any, args: CreatePostPayload, { prisma }: Context) => {
+    // const newPost = await prisma.post.create({
+    //   data: {
+    //     title: args?.title,
+    //     content: args?.content,
+    //   },
+    // });
+    // console.log("data", args);
+    
   },
 };

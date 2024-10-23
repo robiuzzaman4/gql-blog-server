@@ -7,3 +7,14 @@ export const generateToken = async (payload: { userId: number }) => {
 
   return token;
 };
+
+export const getUserInfoFromToken = async (token: string) => {
+  try {
+    const user = jwt.verify(token, process.env.JWT_SECRET as string) as {
+      userId: number;
+    };
+    return user;
+  } catch (error) {
+    return null;
+  }
+};
