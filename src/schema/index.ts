@@ -27,6 +27,7 @@ export const typeDefs = `#graphql
   type Query {
     users: [User]
     posts: [Post]
+    profile(userId: ID!): Profile
   }
 
   type Mutation {

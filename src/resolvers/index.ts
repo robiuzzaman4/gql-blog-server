@@ -11,6 +11,18 @@ export const resolvers = {
     users: async () => {
       return await prisma.user.findMany();
     },
+    // === PROFLIE QUERY ===
+    profile: async (userId: number) => {
+      const profile = await prisma.user.findFirst({
+        where: {
+          profile: {
+            userId: userId,
+          },
+        },
+      });
+
+     return profile;
+    },
   },
   Mutation: {
     // === SIGNUP MUTATION ===
