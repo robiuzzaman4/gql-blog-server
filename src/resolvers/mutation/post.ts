@@ -5,7 +5,7 @@ export const postMutations = {
   // === CREATE POST MUTATION ===
   createPost: async (
     _parent: any,
-    args: CreatePostPayload,
+    { post }: CreatePostPayload,
     { prisma, userId }: Context
   ) => {
     // if userId not found then thorw error
@@ -14,10 +14,10 @@ export const postMutations = {
         message: "Unauthorised Access!",
         post: null,
       };
-    }
+    } 
 
     // if title or content not found then throw error
-    if (!args?.title || !args?.content) {
+    if (!post?.title || !post?.content) {
       return {
         message: "Title & Content is Required!",
         post: null,
@@ -27,8 +27,8 @@ export const postMutations = {
     // create new post
     const newPost = await prisma.post.create({
       data: {
-        title: args?.title,
-        content: args?.content,
+        title: post?.title,
+        content: post?.content,
         authorId: userId,
       },
     });

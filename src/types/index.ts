@@ -10,7 +10,11 @@ export type SigninPayload = {
   password: string;
 };
 
-export type CreatePostPayload = {
+type PostPayload = {
   title: string;
   content: string;
+};
+
+export type CreatePostPayload = {
+  post: PostPayload;
 };
