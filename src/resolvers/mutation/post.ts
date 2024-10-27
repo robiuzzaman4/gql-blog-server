@@ -14,7 +14,7 @@ export const postMutations = {
         message: "Unauthorised Access!",
         post: null,
       };
-    } 
+    }
 
     // if title or content not found then throw error
     if (!post?.title || !post?.content) {
@@ -38,5 +38,10 @@ export const postMutations = {
       message: "Post Created!",
       post: newPost,
     };
+  },
+
+  // === UPDATE POST MUTATION ===
+  updatePost: async (parent: any, args: any, { prisma }: Context) => {
+    console.log("update-post", args);
   },
 };

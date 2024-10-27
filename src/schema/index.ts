@@ -50,7 +50,8 @@ export const typeDefs = `#graphql
 
     updatePost(
       postId: ID!
-      post: PostInput
+      published: Boolean!
+      post: PostInput!
     ) : PostPayload
   } 
 
