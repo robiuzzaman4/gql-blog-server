@@ -54,9 +54,9 @@ export const checkUserAccess = async (
   }
 
   // throw error if user id and author id are not the same
-  if (Number(user?.id) !== Number(post?.authorId)) {
+  if (user?.id !== post?.authorId) {
     return {
-      message: "Unauthorized Access!",
+      message: "Post Not Owned by User!",
       post: null,
     };
   }
