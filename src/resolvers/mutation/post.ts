@@ -44,7 +44,7 @@ export const postMutations = {
   // === UPDATE POST MUTATION ===
   updatePost: async (_parent: any, args: any, { prisma, userId }: Context) => {
     const accessError = await checkUserAccess(prisma, userId as number, args);
-    
+
     if (accessError) {
       return accessError;
     }
@@ -69,6 +69,36 @@ export const postMutations = {
     return {
       message: "Post Updated!",
       post: updatedPost,
+    };
+  },
+
+  // === DELETE POST MUTATION ===
+  deletePost: async (_parent: any, args: any, { prisma, userId }: Context) => {
+    const accessError = await checkUserAccess(prisma, userId as number, args);
+
+    if (accessError) {
+      return accessError;
+    }
+
+    // delete post logic
+    const deletedPost = await prisma.post.delete({
+      where: {
+        id: Number(args?.postId),
+      },
+    });
+
+    // throw error if post is not deleted
+    if (!deletedPost) {
+      return {
+        message: "Failed to Update Post!",
+        post: null,
+      };
+    }
+
+    // success response
+    return {
+      message: "Post Deleted!",
+      post: deletedPost,
     };
   },
 };
