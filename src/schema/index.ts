@@ -56,6 +56,11 @@ export const typeDefs = `#graphql
     deletePost(
       postId: ID!
     ) : PostPayload
+
+    publishPost(
+      postId: ID!
+]     published: Boolean!
+    ) : PostPayload
   } 
 
   type AuthPayload {
