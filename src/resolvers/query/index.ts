@@ -14,4 +14,9 @@ export const Query = {
 
     return profile;
   },
+
+  // === POSTS QUERY ===
+  posts: async (_parent: any, _args: any, { prisma }: any) => {
+    return await prisma.post.findMany();
+  },
 };
