@@ -1,5 +1,6 @@
 import { Context } from "../..";
 import { CreatePostPayload } from "../../types";
+import { checkUserAccess } from "../../utils";
 
 export const postMutations = {
   // === CREATE POST MUTATION ===
@@ -42,41 +43,10 @@ export const postMutations = {
 
   // === UPDATE POST MUTATION ===
   updatePost: async (_parent: any, args: any, { prisma, userId }: Context) => {
-    // check if user exist
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
-    // throw error if user not found
-    if (!user) {
-      return {
-        message: "User Not Found!",
-        post: null,
-      };
-    }
-
-    const post = await prisma.post.findUnique({
-      where: {
-        id: Number(args?.postId),
-      },
-    });
-
-    // throw error if post not found
-    if (!post) {
-      return {
-        message: "Post Not Found!",
-        post: null,
-      };
-    }
-
-    // throw error if user id and author id are not the same
-    if (Number(user?.id) !== Number(post?.authorId)) {
-      return {
-        message: "Unauthorized Access!",
-        post: null,
-      };
+    const accessError = await checkUserAccess(prisma, userId as number, args);
+    
+    if (accessError) {
+      return accessError;
     }
 
     // update post logic
@@ -84,11 +54,7 @@ export const postMutations = {
       where: {
         id: Number(args?.postId),
       },
-      data: {
-        title: args?.post?.title || post?.title,
-        content: args?.post?.content || post?.content,
-        published: args?.published !== undefined ? args?.published : post?.published,
-      },
+      data: args?.post,
     });
 
     // throw error if post is not updated

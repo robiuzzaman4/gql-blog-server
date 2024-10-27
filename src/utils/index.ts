@@ -18,3 +18,39 @@ export const getUserInfoFromToken = async (token: string) => {
     return null;
   }
 };
+
+export const checkUserAccess = async (
+  prisma: any,
+  userId: number,
+  args: any
+) => {
+  // check if user exist
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  // throw error if user not found
+  if (!user) {
+    return {
+      message: "User Not Found!",
+      post: null,
+    };
+  }
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id: Number(args?.postId),
+    },
+  });
+
+  // throw error if post not found
+  if (!post) {
+    return {
+      message: "Post Not Found!",
+      post: null,
+    };
+  }
+
+};
