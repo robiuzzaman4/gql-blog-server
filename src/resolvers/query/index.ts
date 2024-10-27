@@ -17,6 +17,13 @@ export const Query = {
 
   // === POSTS QUERY ===
   posts: async (_parent: any, _args: any, { prisma }: any) => {
-    return await prisma.post.findMany();
+    return await prisma.post.findMany({
+      where: {
+        published: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      }
+    });
   },
 };
