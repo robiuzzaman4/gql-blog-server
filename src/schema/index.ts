@@ -59,7 +59,6 @@ export const typeDefs = `#graphql
 
     publishPost(
       postId: ID!
-]     published: Boolean!
     ) : PostPayload
   } 
 

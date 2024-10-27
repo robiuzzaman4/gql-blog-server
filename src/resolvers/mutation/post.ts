@@ -101,4 +101,37 @@ export const postMutations = {
       post: deletedPost,
     };
   },
+
+  // === PUBLISH POST MUTATION ===
+  publishPost: async (_parent: any, args: any, { prisma, userId }: Context) => {
+    const accessError = await checkUserAccess(prisma, userId as number, args);
+
+    if (accessError) {
+      return accessError;
+    }
+
+    // publish post logic
+    const publishedPost = await prisma.post.update({
+      where: {
+        id: Number(args?.postId),
+      },
+      data: {
+        published: true,
+      },
+    });
+
+    // throw error if post is not published
+    if (!publishedPost) {
+      return {
+        message: "Failed to Publish Post!",
+        post: null,
+      };
+    }
+
+    // success response
+    return {
+      message: "Post Published!",
+      post: publishedPost,
+    };
+  },
 };
