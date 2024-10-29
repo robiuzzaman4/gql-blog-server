@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch ./**/*.ts --exec ts-node src/index.ts"
+    "dev": "nodemon --watch ./**/*.ts --exec ts-node src/index.ts",
+    "prod": "node ./dist/index.js",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
