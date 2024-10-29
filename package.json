@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --watch ./**/*.ts --exec ts-node src/index.ts",
     "prod": "node ./dist/index.js",
-    "build": "tsc prisma generate"
+    "build": "tsc && prisma generate"
   },
   "keywords": [],
   "author": "",
