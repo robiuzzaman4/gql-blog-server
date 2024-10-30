@@ -8,6 +8,7 @@ import { getUserInfoFromToken } from "./utils";
 import express from "express";
 import { expressMiddleware } from "@apollo/server/express4";
 import { json } from "body-parser";
+import cors from "cors";
 
 export const prisma = new PrismaClient();
 
@@ -39,6 +40,9 @@ export type Context = {
 
 // Set up the Express app
 const app = express();
+
+// Enable CORS for all origins
+app.use(cors());
 
 async function main() {
   // Initialize the Apollo Server
