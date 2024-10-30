@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon --watch ./**/*.ts --exec ts-node src/index.ts",
     "prod": "node ./dist/index.js",
-    "build": "tsc && prisma generate"
+    "build": "prisma generate && tsc",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
@@ -14,8 +15,11 @@
   "dependencies": {
     "@apollo/server": "^4.11.0",
     "@prisma/client": "^5.21.1",
+    "apollo-server-express": "^3.13.0",
     "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
     "dataloader": "^2.2.2",
+    "express": "^4.21.1",
     "graphql": "^16.9.0",
     "jsonwebtoken": "^9.0.2"
   },
